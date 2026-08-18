@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "native-electron",
+    "slug": "native-electron",
+    "version": "0.1.0",
+    "platforms": ["ios", "android", "web"],
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.native.electron"
+    },
+    "android": {
+      "package": "com.native.electron"
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}

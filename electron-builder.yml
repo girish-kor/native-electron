@@ -1,0 +1,17 @@
+appId: com.native.electron
+productName: native-electron
+directories:
+  output: release
+  buildResources: build
+extraMetadata:
+  main: electron/main.js
+files:
+  - dist/**
+  - electron/**
+  - package.json
+win:
+  target: nsis
+mac:
+  target: dmg
+linux:
+  target: AppImage

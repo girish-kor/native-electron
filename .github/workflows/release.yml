@@ -1,0 +1,84 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: (cd dist && zip -r ../web-build.zip .)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: web-build.zip
+
+  build-native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Pre-generate NativeWind CSS cache
+        run: |
+          mkdir -p node_modules/.cache/nativewind
+          npx tailwindcss -i ./src/styles/index.css -o ./node_modules/.cache/nativewind/index.css
+      - run: npx expo export --platform all --output-dir build
+      - run: (cd build && zip -r ../native-build.zip .)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-build
+          path: native-build.zip
+
+  build-electron:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx electron-builder --config electron-builder.yml --publish=never
+      - uses: actions/upload-artifact@v4
+        with:
+          name: electron-${{ matrix.os }}
+          path: |
+            release/*.exe
+            release/*.dmg
+            release/*.AppImage
+            release/*.zip
+          if-no-files-found: ignore
+
+  release:
+    needs: [build-web, build-native, build-electron]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: artifacts/**/*
