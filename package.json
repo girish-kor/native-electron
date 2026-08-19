@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.3",
-    "expo": "~51.0.28",
+    "expo": "~57.0.14",
     "nativewind": "4.0.36",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -35,12 +35,12 @@
     "@react-native/js-polyfills": "0.74.87",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
-    "@vitejs/plugin-react": "^4.3.1",
+    "@vitejs/plugin-react": "^6.0.5",
     "autoprefixer": "^10.4.20",
     "babel-preset-expo": "^11.0.15",
     "concurrently": "^9.0.1",
-    "electron": "^32.1.0",
-    "electron-builder": "^25.0.5",
+    "electron": "^39.8.10",
+    "electron-builder": "^26.15.3",
     "eslint": "^9.9.1",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc-fb9a90fa48-20240614",
@@ -49,8 +49,8 @@
     "metro": "0.80.12",
     "postcss": "^8.4.45",
     "tailwindcss": "^3.4.19",
-    "vite": "^5.4.3",
-    "vitest": "^2.0.5",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.11",
     "wait-on": "^8.0.0"
   }
 }
